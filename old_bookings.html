@@ -1,0 +1,73 @@
+<!--Muhammad Anas-->
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Old Bookings - BookEasy</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="atlas.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Welcome to BookEasy</h1>
+    <nav>
+      <a href="Project.html">Home</a>
+      <a href="rooms/RoomBrowsering.html">Browse and Explore rooms</a>
+      <a href="Search.html">Advanced Search</a>
+      <a href="report/Report.html">Report and Feedback</a>
+      <a href="About.html">About</a>
+      <a href="Contact.html">Contact</a>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h2>Past Bookings & Ratings</h2>
+    <div id="list" class="booking-list"></div>
+  </div>
+
+  <div class="footer">© 2025 BookEasy</div>
+
+  <script src="users/users.js"></script>
+  <script>
+    function renderOld(){
+      const u = currentUser();
+      const list = document.getElementById('list');
+      if (!u) { list.innerHTML = '<p>Please <a href="login.html">login</a> to see bookings.</p>'; return; }
+      const rows = getOldBookings(u.id);
+      if (rows.length === 0) { list.innerHTML = '<p>No past bookings.</p>'; return; }
+      list.innerHTML = rows.map(b => `
+        <div class="card" id="card_${b.id}">
+          <div><strong>${b.roomTitle}</strong> <span class="small">(${b.from} → ${b.to})</span></div>
+          <div class="small">Price: ${b.price}</div>
+          <div style="margin-top:8px;">
+            <div class="small">Rating: ${b.rating ? '<span class="stars">' + '★'.repeat(b.rating) + '</span>' : 'Not rated yet'}</div>
+            ${b.rating ? '' : `<div style="margin-top:8px;">
+              <select id="rate_sel_${b.id}">
+                <option value="">Give rating</option>
+                <option value="1">1 - Poor</option>
+                <option value="2">2 - Fair</option>
+                <option value="3">3 - Good</option>
+                <option value="4">4 - Very Good</option>
+                <option value="5">5 - Excellent</option>
+              </select>
+              <button onclick="submitRating('${b.id}')" class="secondary">Submit</button>
+            </div>`}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function submitRating(id){
+      const sel = document.getElementById('rate_sel_' + id);
+      const v = sel.value;
+      if (!v) return alert('Pick a rating');
+      const r = rateBooking(id, v);
+      if (r.ok) { alert('Thanks for rating'); renderOld(); }
+      else alert(r.msg);
+    }
+
+    renderOld();
+  </script>
+</body>
+</html>

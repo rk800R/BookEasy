@@ -1,0 +1,56 @@
+[2025-12-20 18:05:28] --- New Request ---
+[2025-12-20 18:05:28] Login attempt for email: admin@bookeasy.com
+[2025-12-20 18:05:28] Connecting to: localhost User: root DB: bookeasy
+[2025-12-20 18:05:28] DB Connection successful
+[2025-12-20 18:05:28] Query rows found: 1
+[2025-12-20 18:05:28] Admin found: admin@bookeasy.com, ID: 1
+[2025-12-20 18:05:28] Checking password...
+[2025-12-20 18:05:28] Login successful for: admin@bookeasy.com
+[2025-12-21 14:48:08] --- New Request ---
+[2025-12-21 14:48:08] Login attempt for email: admin@bookeasy.com
+[2025-12-21 14:48:08] Connecting to: localhost User: root DB: bookeasy
+[2025-12-21 14:48:08] DB Connection successful
+[2025-12-21 14:48:08] Query rows found: 1
+[2025-12-21 14:48:08] Admin found: admin@bookeasy.com, ID: 1
+[2025-12-21 14:48:08] Checking password...
+[2025-12-21 14:48:08] Login successful for: admin@bookeasy.com
+[2025-12-21 14:59:15] --- New Request ---
+[2025-12-21 14:59:15] Login attempt for email: admin@bookeasy.com
+[2025-12-21 14:59:15] Connecting to: localhost User: root DB: bookeasy
+[2025-12-21 14:59:16] DB Connection successful
+[2025-12-21 14:59:16] Query rows found: 1
+[2025-12-21 14:59:16] Admin found: admin@bookeasy.com, ID: 1
+[2025-12-21 14:59:16] Checking password...
+[2025-12-21 14:59:16] Login successful for: admin@bookeasy.com
+[2025-12-21 15:13:45] --- New Request ---
+[2025-12-21 15:13:45] Login attempt for email: admin@bookeasy.com
+[2025-12-21 15:13:45] Connecting to: localhost User: root DB: bookeasy
+[2025-12-21 15:13:45] DB Connection successful
+[2025-12-21 15:13:45] Query rows found: 1
+[2025-12-21 15:13:45] Admin found: admin@bookeasy.com, ID: 1
+[2025-12-21 15:13:45] Checking password...
+[2025-12-21 15:13:45] Login successful for: admin@bookeasy.com
+[2025-12-21 15:16:24] --- New Request ---
+[2025-12-21 15:16:24] Login attempt for email: admin@bookeasy.com
+[2025-12-21 15:16:24] Connecting to: localhost User: root DB: bookeasy
+[2025-12-21 15:16:24] DB Connection successful
+[2025-12-21 15:16:24] Query rows found: 1
+[2025-12-21 15:16:24] Admin found: admin@bookeasy.com, ID: 1
+[2025-12-21 15:16:24] Checking password...
+[2025-12-21 15:16:24] Login successful for: admin@bookeasy.com
+[2025-12-21 15:50:37] --- New Request ---
+[2025-12-21 15:50:37] Login attempt for email: admin@bookeasy.com
+[2025-12-21 15:50:37] Connecting to: localhost User: root DB: bookeasy
+[2025-12-21 15:50:37] DB Connection successful
+[2025-12-21 15:50:37] Query rows found: 1
+[2025-12-21 15:50:37] Admin found: admin@bookeasy.com, ID: 1
+[2025-12-21 15:50:37] Checking password...
+[2025-12-21 15:50:38] Login successful for: admin@bookeasy.com
+[2025-12-21 19:40:08] --- New Request ---
+[2025-12-21 19:40:08] Login attempt for email: admin@bookeasy.com
+[2025-12-21 19:40:08] Connecting to: localhost User: root DB: bookeasy
+[2025-12-21 19:40:08] DB Connection successful
+[2025-12-21 19:40:08] Query rows found: 1
+[2025-12-21 19:40:08] Admin found: admin@bookeasy.com, ID: 1
+[2025-12-21 19:40:08] Checking password...
+[2025-12-21 19:40:08] Login successful for: admin@bookeasy.com

@@ -1,0 +1,318 @@
+<html>
+<head>
+<title>Room Browsing Page</title>
+<style> 
+h1 {
+    text-align: center;
+}
+
+.top-search-bar {
+    background-color: #FA8072; 
+    border-radius: 10px; 
+    padding: 20px; 
+    text-align: center; 
+}
+
+#search-box {
+    padding: 8px;
+    border-radius: 6px;
+    border: none;
+}
+
+.search-button, .room-button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 15px; /* Adjust padding for uniformity */
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease; 
+}
+
+.search-button:hover, .room-button:hover {
+    transform: scale(1.1); 
+    background-color: #0056b3; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+}
+
+.room-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 rooms per row */
+    gap: 30px;  /* space between cards */
+    padding: 30px 20px;
+}
+
+.room-listing {
+    width: 300px;
+    flex-shrink: 0; 
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    margin-bottom: 20px; 
+}
+
+.room-listing img {
+    width: 100%; 
+    height: auto;
+    max-height: 200px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.room-listing p {
+    line-height: 1.4;
+}
+
+/* MODAL STYLES */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto; 
+    border: 1px solid #888;
+    border-radius: 10px;
+    text-align: center;
+    width: 350px;
+    padding: 15px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: black;
+}
+
+.booking-button {
+    padding: 8px 15px;
+    font-size: 14px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.booking-button:hover {
+    background-color: darkgreen;
+}
+
+
+
+.popular-section {
+    background-color: #FA8072;
+    padding: 30px 20px;
+    color: white;
+}
+
+.popular-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.popular-grid {
+    display: flex;
+    justify-content: space-around; /* space between columns */
+    flex-wrap: wrap; /* responsive wrapping */
+    text-align: left;
+}
+
+.popular-column p {
+    margin: 5px 0;
+    cursor: pointer;
+}
+
+.popular-column p:hover {
+    text-decoration: underline;
+}
+
+
+</style>
+</head>
+
+<body>
+<div class="top-search-bar">
+ <h1>Explore the Rooms</h1>
+ <form>
+    <label for="search-box" class="visually-hidden">Search:</label>
+    <input type="text" id="search-box" name="q" placeholder="1, 2, 3 beds...">
+    <button type="submit">Search</button>
+ </form>
+</div>
+
+<div class="room-grid">
+
+    <div class="room-listing">
+        <img src="SingleBed.jpg">
+        <p>
+            <strong>Single Bed Room</strong><br>
+            <small style="color: gray;">A cozy space perfect for solo travelers.</small><br>
+            <strong>15,000 PKR/Day</strong><br><br>
+            <button class="room-button">View Details</button>
+        </p>
+    </div>
+
+    <div class="room-listing">
+        <img src="DoubleBed.jpg">
+        <p>
+            <strong>Double Bed Room</strong><br>
+            <small style="color: gray;">Spacious accommodation for two guests.</small><br>
+            <strong>18,000 PKR/Day</strong><br><br>
+            <button class="room-button">View Details</button>
+        </p>
+    </div>
+
+    <div class="room-listing">
+        <img src="C:\Users\rafai\OneDrive\Semester4\Semester5\Projects\triple room.jpg" alt="Triple bed rooms">
+        <p>
+            <strong>Triple Bed Room</strong> <br>
+            <small style="color: gray;">Spacious accommodation perfect for families.</small><br>
+            <strong>20,000 PKR/Day</strong> <br> <br>
+            <button class="room-button">View Details</button>
+        </p>
+    </div>
+
+    <div class="room-listing">
+        <img src="C:\Users\rafai\OneDrive\Semester4\Semester5\Projects\View.jpg" alt="Bed room">
+        <p>
+            <strong>Bed Room With Beautiful View</strong> <br>
+            <small style="color: gray;">Enjoy stunning, unobstructed scenery right outside your window.</small><br>
+            <strong>25,000 PKR/Day</strong> <br> <br>
+            <button class="room-button">View Details</button>
+        </p>
+    </div>
+
+    <div class="room-listing">
+        <img src="C:\Users\rafai\OneDrive\Semester4\Semester5\Projects\2 double beds.jpg" alt="Multiple beds room">
+        <p>
+            <strong>2 Double Bed Room</strong> <br>
+            <small style="color: gray;">This large and beautifully designed room includes two double beds and a wide, comfortable living area. Ideal for families or group travelers seeking extra space and convenience.</small><br>
+            <strong>30,000 PKR/Day</strong> <br> <br>
+            <button class="room-button">View Details</button>
+        </p>
+    </div>
+
+    <div class="room-listing">
+        <img src="C:\Users\rafai\OneDrive\Semester4\Semester5\Projects\fullapartment.jpg" alt="Multiple beds room">
+        <p>
+            <strong>A full House</strong> <br>
+            <small style="color: gray;">Experience ultimate comfort in this expansive room featuring generous space on all sides, complemented by a cozy lounge area perfect for relaxation or entertaining guests.</small><br>
+            <strong>35,000 PKR/Day</strong> <br> <br>
+            <button class="room-button">View Details</button>
+        </p>
+    </div>
+
+</div>
+
+<!-- SMALL MODAL -->
+<div id="roomModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <img id="modal-img" src="" style="width:100%; height:auto; border-radius:5px; margin-bottom:10px;">
+    <h3 id="modal-title" style="margin:5px 0;"></h3>
+    <p id="modal-description" style="font-size:14px; color: #555; margin:5px 0;"></p>
+    <strong id="modal-price" style="display:block; margin:10px 0;"></strong>
+    <button class="booking-button">Book Now</button>
+  </div>
+</div>
+
+<script>
+// Get modal elements
+const modal = document.getElementById("roomModal");
+const modalImg = document.getElementById("modal-img");
+const modalTitle = document.getElementById("modal-title");
+const modalDescription = document.getElementById("modal-description");
+const modalPrice = document.getElementById("modal-price");
+const closeBtn = document.querySelector(".close");
+
+// Add click event to all view details buttons
+document.querySelectorAll(".room-button").forEach(button => {
+    button.addEventListener("click", function() {
+        const parent = this.closest(".room-listing");
+        modalImg.src = parent.querySelector("img").src;
+        modalTitle.innerText = parent.querySelector("strong").innerText;
+        modalDescription.innerText = parent.querySelector("small").innerText;
+        modalPrice.innerText = parent.querySelectorAll("strong")[1].innerText;
+        modal.style.display = "block";
+    });
+});
+
+// Close modal
+closeBtn.addEventListener("click", function() {
+    modal.style.display = "none";
+});
+
+// Close modal when clicking outside
+window.addEventListener("click", function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+});
+</script>
+
+
+
+
+
+
+<div class="popular-section">
+    <h2>Popular with travelers from Pakistan</h2>
+    <div class="popular-grid">
+        <div class="popular-column">
+            <p>Lahore hotels</p>
+            <p>Swat hotels</p>
+            <p>Nathia Gali hotels</p>
+            <p>Bahria Town hotels</p>
+            <p>Gujrat hotels</p>
+        </div>
+        <div class="popular-column">
+            <p>Islamabad hotels</p>
+            <p>Peshawar hotels</p>
+            <p>Muzaffarabad hotels</p>
+            <p>Mingora hotels</p>
+            <p>Dina hotels</p>
+        </div>
+        <div class="popular-column">
+            <p>Karachi hotels</p>
+            <p>Gujranwala hotels</p>
+            <p>Faisalabad hotels</p>
+            <p>Sialkot hotels</p>
+            <p>Abbottabad hotels</p>
+        </div>
+        <div class="popular-column">
+            <p>Murree hotels</p>
+            <p>Lower Topa hotels</p>
+            <p>Mansehra hotels</p>
+            <p>Bhurban hotels</p>
+            <p>Ayubia hotels</p>
+        </div>
+        <div class="popular-column">
+            <p>Rawalpindi hotels</p>
+            <p>Bahawalpur hotels</p>
+            <p>Sargodha hotels</p>
+            <p>Malam Jabba hotels</p>
+            <p>Dera Ghazi Khan hotels</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!-- Umair Ali Arif -->
+<html>
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookEasy HomePage</title>
+    <script src="atlas.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+                body {
+                        background-image: url("media/homebg.jpg");
+                        background-size: cover;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        background-attachment: fixed;
+                        /* fallback color while image loads */
+                        background-color:rgba(249, 231, 149, 0.5);
+                        min-height: 100vh;
+                        display: flex;
+                        flex-direction: column;
+                        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                }
+                 .page-overlay{background:linear-gradient(rgba(6,23,51,0.45), rgba(6,23,51,0.45));min-height:100vh;padding-bottom:40px}
+        
+        header {
+            background-color: rgba(249, 97, 103, 0.75);
+
+            border-radius: 6px;
+            padding: 15px;
+            margin: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            color: white;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            text-align: center;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        title{
+           
+
+color:white;
+
+
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: background-color 1s;
+        }
+        
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .sub {
+            width: 700px;
+            height: 200px;
+            color:white;
+            border: 1px solid grey;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(249, 97, 103, 0.75);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .sub:hover {
+            background-color: rgba(249, 231, 149, 0.75);
+            color: black;
+            transform: scale(1.05);
+            transition:0.3s;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        /* New feature tiles below search box */
+        .features {max-width:1100px;margin:20px auto;padding:0 16px}
+        .features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+        .feature-card{background:rgba(255,255,255,0.9);padding:16px;border-radius:10px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;box-shadow:0 6px 18px rgba(8,24,48,0.08);transition:transform .18s ease,box-shadow .18s ease}
+        .feature-card:hover{transform:translateY(-6px);box-shadow:0 14px 30px rgba(8,24,48,0.12)}
+        .feature-card .icon{font-size:22px;background:var(--accent, #F96167);color:white;padding:8px;border-radius:8px;font-family:'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji','Segoe UI Symbol',sans-serif}
+        .feature-card h4{margin:0;font-size:16px}
+        .feature-card p{margin:0;color:rgba(6,36,59,0.7);font-size:13px}
+        .popular-strip{max-width:1100px;margin:18px auto;padding:12px 16px;border-radius:10px;background:rgba(255,255,255,0.06);display:flex;gap:12px;overflow:auto}
+        .popular-item{min-width:150px;padding:8px 12px;background:rgba(255,255,255,0.92);border-radius:8px;box-shadow:0 6px 14px rgba(8,24,48,0.06);white-space:nowrap}
+        @media (max-width:900px){.features-grid{grid-template-columns:repeat(2,1fr)}.feature-card{align-items:center;text-align:center}}
+        @media (max-width:520px){.features-grid{grid-template-columns:1fr}.popular-item{min-width:120px}}
+        
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #F96167;
+            color: white;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Welcome to BookEasy</h1>
+        <nav>
+            <a href="Project.html">Home</a>
+            <a href="rooms/RoomBrowsering.html">Browse and Explore rooms</a>
+            <a href="Search.html">Advanced Search</a>
+            <a href="report/Report.html">Report and Feedback</a>
+            <a href="About.html">About</a>
+            <a href="Contact.html">Contact</a>
+            <a href="login.html">Login</a>
+        </nav>
+    </header>
+    
+    <div class="title" style="margin:0 auto; margin-top:20px;">
+        <h2 style="color:white;">
+            One Website For All Your Accommodation Needs
+        </h2>
+    </div>
+    <div class="main-content">
+        <div class="sub">
+            <h2 style="margin-bottom: 15px;">What are you looking for?</h2>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="homepage-searchbar" name="searchbar" placeholder="Search for rooms, locations..." style="height:50px; width:550px; border-radius:20px; padding-left: 15px;">
+                <input type="button" id="homepage-searchbutton" name="searchbutton" value="Search" style="height:50px; width:100px; border-radius:20px; cursor: pointer;">
+            </div>
+        </div>
+    </div>
+    <!-- New feature tiles section (keeps existing search block) -->
+    <section class="features" aria-label="Site features and highlights">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="icon">🏷️</div>
+                <h4>Best Deals</h4>
+                <p>Handpicked discounts and seasonal offers for smart travelers.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon">⭐</div>
+                <h4>Top Rated Hosts</h4>
+                <p>Verified hosts with excellent reviews and quick responses.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon">📍</div>
+                <h4>Popular Destinations</h4>
+                <p>Explore trending cities and nearby getaways with curated picks.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon">🔒</div>
+                <h4>Secure Booking</h4>
+                <p>Safe payments and reliable customer support for every trip.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Small popular destinations strip -->
+    <div class="popular-strip" aria-hidden="false">
+        <div class="popular-item">Murree</div>
+        <div class="popular-item">Islamabad</div>
+        <div class="popular-item">Lahore</div>
+        <div class="popular-item">Karachi</div>
+        <div class="popular-item">Swat</div>
+        <div class="popular-item">Nathia Gali</div>
+    </div>
+    
+    
+
+    <footer>
+        <p>&copy; 2025 BookEasy. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Homepage search functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchBox = document.getElementById('homepage-searchbar');
+            const searchBtn = document.getElementById('homepage-searchbutton');
+            
+            function performSearch() {
+                const query = searchBox.value.trim();
+                if (query) {
+                    // Store search query and redirect to rooms browsing page
+                    sessionStorage.setItem('searchQuery', query);
+                    window.location.href = 'rooms/RoomBrowsering.html';
+                } else {
+                    alert('Please enter a search term');
+                }
+            }
+            
+            searchBtn.addEventListener('click', performSearch);
+            searchBox.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

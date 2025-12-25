@@ -1,0 +1,559 @@
+<!-- Abdul Rafaih -->
+<html>
+<head>
+<title>Room Browsing Page</title>
+<script src="../atlas.js"></script>
+<script src="rooms.js" defer></script>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url("../media/browsing_background.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: rgba(249, 231, 149, 0.5);
+    min-height: 100vh;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+header {
+    background-color: rgba(249, 97, 103, 0.75);
+    border-radius: 6px;
+    padding: 15px;
+    margin: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+header h1 {
+    color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    transition: background-color 1s;
+}
+
+nav a:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.top-search-bar {
+    background: rgba(249, 97, 103, 0.75);
+    border-radius: 18px;
+    padding: 35px 20px;
+    text-align: center;
+    margin: 25px auto;
+    width: 90%;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+.top-search-bar h1 {
+    font-size: 32px;
+    margin-bottom: 18px;
+    color: white;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+
+#search-box {
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid grey;
+    width: 250px;
+    transition: 0.3s ease;
+}
+#search-box:focus {
+    outline: none;
+    border-color: rgba(249, 97, 103, 0.75);
+    box-shadow: 0 4px 8px rgba(249, 97, 103, 0.2);
+}
+
+
+
+
+.search-button, .room-button {
+    background-color: #F96167;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.search-button:hover, .room-button:hover {
+    background-color: rgba(249, 97, 103, 0.75);
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+.room-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    padding: 30px 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.room-listing {
+    width: 100%;
+    flex-shrink: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    margin-bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.room-listing img {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.room-listing p {
+    line-height: 1.4;
+    color: #06243b;
+}
+
+/* MODAL STYLING */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: rgba(255, 255, 255, 0.95);
+    margin: 6% auto;
+    border-radius: 10px;
+    text-align: center;
+    width: 350px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.close {
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+    color: #06243b;
+}
+
+
+
+
+.popular-section {
+    margin-top: 40px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.06);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.popular-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 22px;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.popular-grid {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.popular-column p {
+    margin: 6px 0;
+    font-size: 14px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.popular-column p:hover {
+    color: rgba(249, 231, 149, 1);
+    transform: translateX(5px);
+}
+
+
+.footer-bar {
+    background: #F96167;
+    padding: 15px;
+    color: white;
+    text-align: center;
+    margin-top: 30px;
+    font-size: 14px;
+    border-radius: 6px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+    <h1>Welcome to BookEasy</h1>
+    <nav>
+        <a href="../Project.html">Home</a>
+        <a href="RoomBrowsering.html">Browse and Explore rooms</a>
+        <a href="../Search.html">Advanced Search</a>
+        <a href="../report/Report.html">Report and Feedback</a>
+        <a href="../About.html">About</a>
+        <a href="../Contact.html">Contact</a>
+        <a href="../login.html">Login</a>
+    </nav>
+</header>
+
+<div class="top-search-bar">
+    <h1>Find the Perfect Room</h1>
+    <form>
+        <input type="text" id="search-box" placeholder="Search rooms...">
+        <button type="submit" class="search-button">Search</button>
+    </form>
+</div>
+
+
+<div class="room-grid">
+
+    <!-- ROOM 1 -->
+    <div class="room-listing">
+        <img src="../media/SingleBed.jpg">
+        <p>
+            <strong>Single Bed Room</strong><br>
+            <small style="color: gray;">A cozy space perfect for solo travelers.</small><br>
+            <strong>15,000 PKR/Day</strong><br><br>
+            <span class="extra-info" style="display:none;">
+                Free WiFi ✓ • Hot Water ✓ • LED TV ✓
+            </span>
+            <button class="room-button">View Details</button>
+        </p>
+    </div>
+
+    <!-- ROOM 2 -->
+    <div class="room-listing">
+        <img src="../media/DoubleBed.jpg">
+        <p>
+            <strong>Double Bed Room</strong><br>
+            <small style="color: gray;">Spacious accommodation for two guests.</small><br>
+            <strong>18,000 PKR/Day</strong><br><br>
+            <span class="extra-info" style="display:none;">
+                Free WiFi ✓ • Hot Water ✓  •Parking ✓ • LED ✓ 
+            </span>
+            <button class="room-button">View Details</button>
+        </p>
+    </div>
+
+    <!-- ROOM 3 -->
+    <div class="room-listing">
+        <img src="../media/triple room.jpg">
+        <p>
+            <strong>Triple Bed Room</strong><br>
+            <small style="color: gray;">Perfect for families and groups.</small><br>
+            <strong>20,000 PKR/Day</strong><br><br>
+            <span class="extra-info" style="display:none;">
+                Heating ✓ • Free WiFi ✓ • Balcony ✓ • Parking ✓ • Hot Water ✓ •Room Service ✓
+            </span>
+            <button class="room-button">View Details</button>
+        </p>
+    </div>
+
+    <!-- ROOM 4 -->
+    <div class="room-listing">
+        <img src="../media/View.jpg">
+        <p>
+            <strong>Bed Room With Beautiful View</strong><br>
+            <small style="color: gray;">Enjoy stunning scenery right outside.</small><br>
+            <strong>25,000 PKR/Day</strong><br><br>
+            <span class="extra-info" style="display:none;">
+                Heating ✓ • Free WiFi ✓ • Private Balcony ✓ • Sunrise View ✓
+            </span>
+            <button class="room-button">View Details</button>
+        </p>
+    </div>
+
+    <!-- ROOM 5 -->
+    <div class="room-listing">
+        <img src="../media/2 double beds.jpg">
+        <p>
+            <strong>2 Double Bed Room</strong><br>
+            <small style="color: gray;">Perfect for large families.</small><br>
+            <strong>30,000 PKR/Day</strong><br><br>
+            <span class="extra-info" style="display:none;">
+                Heating ✓ • Free WiFi ✓ • 2 Beds ✓ • Extra Space ✓
+            </span>
+            <button class="room-button">View Details</button>
+        </p>
+    </div>
+
+    <!-- ROOM 6 -->
+    <div class="room-listing">
+        <img src="../media/fullapartment.jpg">
+        <p>
+            <strong>A Full House</strong><br>
+            <small style="color: gray;">A complete home-like space.</small><br>
+            <strong>35,000 PKR/Day</strong><br><br>
+            <span class="extra-info" style="display:none;">
+                Heating ✓ • Kitchen ✓ • Lounge ✓ • 3 Beds ✓ • Parking ✓
+            </span>
+            <button class="room-button">View Details</button>
+        </p>
+    </div>
+
+    <!-- ROOM 7 -->
+    <div class="room-listing">
+        <img src="../media/friendsroom.jpg">
+        <p>
+            <strong>A group Room</strong> <br>
+            <small style="color: gray;">All in one room</small><br>
+            <strong>22,000 PKR/Day</strong><br><br>
+            <span class="extra-info" style="display:none;">
+                Heating ✓ • 3 Beds ✓ • Parking ✓ • Hot Water ✓
+            </span>
+            <button class="room-button">View Details</button>
+        </p>
+    </div>
+
+    <!-- ROOM 8 -->
+    <div class="room-listing">
+        <img src="../media/cityview.jpg">
+        <p>
+            <strong>A Full city View</strong> <br>
+            <small style="color: gray;">A room best for people who are on a buisness tour</small><br>
+            <strong>25,000 PKR/Day</strong><br><br>
+            <span class="extra-info" style="display:none;">
+                Heating ✓ • Fast Net ✓ • Parking ✓ • Hot Water ✓
+            </span>
+            <button class="room-button">View Details</button>
+        </p>
+    </div>
+
+    <!-- ROOM 9 -->
+    <div class="room-listing">
+        <img src="../media/childrenRoom.jpg">
+        <p>
+            <strong>A Room Best for Kids</strong> <br>
+            <small style="color: gray;">A colorful room with toys all over for Kids</small><br>
+            <strong>18,000 PKR/Day</strong><br><br>
+            <span class="extra-info" style="display:none;">
+                Heating ✓ • Fast Net ✓ • Spacious ✓ • Hot Water ✓
+            </span>
+            <button class="room-button">View Details</button>
+        </p>
+    </div>
+
+</div>
+
+
+
+<div id="roomModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+
+    <img id="modal-img" style="width:100%; border-radius:8px; margin-bottom:10px;">
+    <h2 id="modal-title"></h2>
+    <p id="modal-description" style="color:gray;"></p>
+    <strong id="modal-price"></strong>
+    <hr>
+    <p id="modal-extra" style="font-size:14px; color:#333;"></p>
+
+    <!-- BOOK ROOM BUTTON ADDED HERE -->
+    <button id="bookRoomBtn" class="room-button" style="margin-top:15px; width:100%;">Book Room</button>
+
+  </div>
+</div>
+
+<script>
+// Modal elements
+const modal = document.getElementById("roomModal");
+const modalImg = document.getElementById("modal-img");
+const modalTitle = document.getElementById("modal-title");
+const modalDesc = document.getElementById("modal-description");
+const modalPrice = document.getElementById("modal-price");
+const modalExtra = document.getElementById("modal-extra");
+
+document.querySelectorAll(".room-button").forEach(button => {
+    button.addEventListener("click", function () {
+
+        const room = this.closest(".room-listing");
+
+        modalImg.src = room.querySelector("img").src;
+        modalTitle.innerText = room.querySelector("strong").innerText;
+        modalDesc.innerText = room.querySelector("small").innerText;
+        modalPrice.innerText = room.querySelectorAll("strong")[1].innerText;
+        modalExtra.innerText = room.querySelector(".extra-info").innerText;
+
+        modal.style.display = "block";
+    });
+});
+
+
+
+document.getElementById("bookRoomBtn").addEventListener("click", function () {
+    // Extract room data from modal
+    const priceText = modalPrice.innerText;
+    // Extract numeric price from text like "15,000 PKR/Day" or "$150/Day"
+    const priceMatch = priceText.match(/[\d,]+/);
+    const priceValue = priceMatch ? parseFloat(priceMatch[0].replace(/,/g, '')) : 0;
+    
+    const roomData = {
+        id: Date.now(),
+        name: modalTitle.innerText,
+        description: modalDesc.innerText,
+        price: priceValue,
+        image: modalImg.src,
+        amenities: modalExtra.innerText
+    };
+
+    // Save room data to sessionStorage
+    sessionStorage.setItem('bookingRoom', JSON.stringify(roomData));
+
+    // Redirect to checkout page
+    window.location.href = '../Checkout.html';
+});
+
+
+document.querySelector(".close").onclick = () => modal.style.display = "none";
+
+
+
+window.onclick = function(e) {
+    if (e.target == modal) modal.style.display = "none";
+};
+</script>
+
+<!-- Admin-sync script: apply added/removed rooms from AdminControl (localStorage) -->
+<script>
+    (function applyAdminChanges(){
+        try{
+            const added = JSON.parse(localStorage.getItem('addedRooms')||'[]');
+
+            // append added rooms to the grid
+            const grid = document.querySelector('.room-grid');
+            if(grid && added.length){
+                added.forEach(r=>{
+                    const div = document.createElement('div');
+                    div.className = 'room-listing';
+                    div.innerHTML = `
+                        <img src="${r.img}">
+                        <p>
+                            <strong>${r.title}</strong><br>
+                            <small style="color: gray;">(added via Admin)</small><br>
+                            <strong>${r.price? r.price + ' PKR/Day' : ''}</strong><br><br>
+                            <span class="extra-info" style="display:none;">Added from admin</span>
+                            <button class="room-button">View Details</button>
+                        </p>`;
+                    grid.appendChild(div);
+
+                    // attach modal handler to new button
+                    const btn = div.querySelector('.room-button');
+                    if(btn){
+                        btn.addEventListener('click', function () {
+                            const room = this.closest('.room-listing');
+                            modalImg.src = room.querySelector('img').src;
+                            modalTitle.innerText = room.querySelector('strong').innerText;
+                            modalDesc.innerText = room.querySelector('small').innerText;
+                            modalPrice.innerText = room.querySelectorAll('strong')[1].innerText;
+                            modalExtra.innerText = room.querySelector('.extra-info').innerText;
+                            modal.style.display = 'block';
+                        });
+                    }
+                });
+            }
+        }catch(e){
+            console.warn('Admin sync failed', e);
+        }
+    })();
+</script>
+
+
+<div class="popular-section">
+    <h2>Popular with travelers from Pakistan</h2>
+    <div class="popular-grid">
+        <div class="popular-column">
+            <p>Lahore hotels</p>
+            <p>Swat hotels</p>
+            <p>Nathia Gali hotels</p>
+            <p>Bahria Town hotels</p>
+            <p>Gujrat hotels</p>
+        </div>
+        <div class="popular-column">
+            <p>Islamabad hotels</p>
+            <p>Peshawar hotels</p>
+            <p>Muzaffarabad hotels</p>
+            <p>Mingora hotels</p>
+            <p>Dina hotels</p>
+        </div>
+        <div class="popular-column">
+            <p>Karachi hotels</p>
+            <p>Gujranwala hotels</p>
+            <p>Faisalabad hotels</p>
+            <p>Sialkot hotels</p>
+            <p>Abbottabad hotels</p>
+        </div>
+        <div class="popular-column">
+            <p>Murree hotels</p>
+            <p>Lower Topa hotels</p>
+            <p>Mansehra hotels</p>
+            <p>Bhurban hotels</p>
+            <p>Ayubia hotels</p>
+        </div>
+        <div class="popular-column">
+            <p>Rawalpindi hotels</p>
+            <p>Bahawalpur hotels</p>
+            <p>Sargodha hotels</p>
+            <p>Malam Jabba hotels</p>
+            <p>Dera Ghazi Khan hotels</p>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="footer-bar">
+    © 2025 Paradise Booking — Helping Travelers Find the Perfect Stay
+</div>
+
+</body>
+</html>

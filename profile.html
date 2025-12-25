@@ -1,0 +1,272 @@
+<!--Muhammad Anas-->
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Profile - BookEasy</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="atlas.js"></script>
+ </head>
+<body>
+  <header>
+    <h1>Welcome to BookEasy</h1>
+    <nav>
+      <a href="Project.html">Home</a>
+      <a href="rooms/RoomBrowsering.html">Browse and Explore rooms</a>
+      <a href="Search.html">Advanced Search</a>
+      <a href="report/Report.html">Report and Feedback</a>
+      <a href="About.html">About</a>
+      <a href="Contact.html">Contact</a>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
+
+  <div class="container" style="max-width: 1400px; margin: 0 auto; padding: 30px 20px;">
+    <h2 style="font-size: 32px; color: #333; margin-bottom: 30px;">Your Profile</h2>
+    <div id="profileCard" class="card" style="background: transparent; box-shadow: none; padding: 0;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start;">
+        <!-- Personal Information Section -->
+        <div id="userInfo" style="margin-bottom: 0;"></div>
+        
+        <!-- Bookings Section -->
+        <div id="bookingsSection" style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+          <h3 style="color: #F96167; margin-top: 0; font-size: 22px;">Your Bookings</h3>
+          <div id="currentBookings" style="margin-top: 20px;"></div>
+          <div id="pastBookings" style="margin-top: 30px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">© 2025 BookEasy</div>
+
+  <script src="users/users.js"></script>
+  <script>
+    function renderProfile(){
+      const u = JSON.parse(sessionStorage.getItem('currentUser') || 'null');
+      const userInfoEl = document.getElementById('userInfo');
+      const currentBookingsEl = document.getElementById('currentBookings');
+      const pastBookingsEl = document.getElementById('pastBookings');
+      
+      if (!u) { 
+        document.getElementById('profileCard').innerHTML = '<p>Please login. <a href="login.html">Login</a></p>'; 
+        return; 
+      }
+      
+      // Display user information
+      userInfoEl.innerHTML = `
+        <div style="background: linear-gradient(135deg, #F96167 0%, #FF6B7A 100%); padding: 2px; border-radius: 12px; box-shadow: 0 4px 15px rgba(249, 97, 103, 0.3);">
+          <div style="background: white; padding: 25px; border-radius: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+              <div>
+                <h3 style="color: #F96167; margin: 0; font-size: 24px;">Personal Information</h3>
+                <p style="color: #999; margin: 5px 0 0 0; font-size: 12px;">Manage your account details</p>
+              </div>
+              <button id="editProfileBtn" style="background: linear-gradient(135deg, #F96167, #FF6B7A); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; transition: transform 0.2s; box-shadow: 0 2px 8px rgba(249, 97, 103, 0.3);">✏️ Edit Profile</button>
+            </div>
+            
+            <div id="viewMode">
+              <div style="display: flex; flex-direction: column; gap: 16px;">
+                <div style="padding: 15px; background: #f9f9f9; border-radius: 8px; border-left: 4px solid #F96167;">
+                  <p style="color: #999; margin: 0 0 5px 0; font-size: 12px; text-transform: uppercase; font-weight: bold;">Full Name</p>
+                  <p style="color: #333; margin: 0; font-size: 16px; font-weight: bold;">${u.name}</p>
+                </div>
+                <div style="padding: 15px; background: #f9f9f9; border-radius: 8px; border-left: 4px solid #4CAF50;">
+                  <p style="color: #999; margin: 0 0 5px 0; font-size: 12px; text-transform: uppercase; font-weight: bold;">Email Address</p>
+                  <p style="color: #333; margin: 0; font-size: 16px; font-weight: bold;">${u.email}</p>
+                </div>
+                <div style="padding: 15px; background: #f9f9f9; border-radius: 8px; border-left: 4px solid #2196F3; grid-column: 1 / -1;">
+                                <div style="padding: 15px; background: #f9f9f9; border-radius: 8px; border-left: 4px solid #2196F3;">
+                  <p style="color: #999; margin: 0 0 5px 0; font-size: 12px; text-transform: uppercase; font-weight: bold;">Phone Number</p>
+                  <p style="color: #333; margin: 0; font-size: 16px; font-weight: bold;">${u.phone || 'Not provided'}</p>
+                </div>
+              </div>
+            </div>
+            
+            <div id="editMode" style="display: none;">
+              <form id="editProfileForm" style="display: flex; flex-direction: column; gap: 18px;">
+                <div>
+                  <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #333; font-size: 14px;">📝 Full Name</label>
+                  <input type="text" id="editName" value="${u.name}" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 14px; transition: border-color 0.3s;" placeholder="Enter your full name">
+                </div>
+                <div>
+                  <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #333; font-size: 14px;">📧 Email Address</label>
+                  <input type="email" id="editEmail" value="${u.email}" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 14px; transition: border-color 0.3s;" placeholder="Enter your email">
+                </div>
+                <div>
+                  <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #333; font-size: 14px;">📱 Phone Number</label>
+                  <input type="tel" id="editPhone" value="${u.phone || ''}" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 14px; transition: border-color 0.3s;" placeholder="Enter your phone number">
+                </div>
+                <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 15px;">
+                  <button type="button" id="cancelEditBtn" style="background: #f0f0f0; color: #333; border: 2px solid #ddd; padding: 11px 24px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; transition: all 0.3s;">Cancel</button>
+                  <button type="submit" id="saveProfileBtn" style="background: linear-gradient(135deg, #4CAF50, #66BB6A); color: white; border: none; padding: 11px 24px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);">✓ Save Changes</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // Setup edit profile functionality
+      const editBtn = document.getElementById('editProfileBtn');
+      const cancelBtn = document.getElementById('cancelEditBtn');
+      const saveBtn = document.getElementById('saveProfileBtn');
+      const viewMode = document.getElementById('viewMode');
+      const editMode = document.getElementById('editMode');
+      const editForm = document.getElementById('editProfileForm');
+      
+      if (editBtn) {
+        editBtn.addEventListener('click', () => {
+          viewMode.style.display = 'none';
+          editMode.style.display = 'block';
+        });
+      }
+      
+      if (cancelBtn) {
+        cancelBtn.addEventListener('click', () => {
+          viewMode.style.display = 'block';
+          editMode.style.display = 'none';
+        });
+      }
+      
+      if (editForm) {
+        editForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const updatedUser = {
+            action: 'update',
+            id: u.id,
+            name: document.getElementById('editName').value.trim(),
+            email: document.getElementById('editEmail').value.trim(),
+            phone: document.getElementById('editPhone').value.trim()
+          };
+          
+          // Validation
+          if (!updatedUser.name) {
+            alert('Name is required');
+            return;
+          }
+          if (!updatedUser.email) {
+            alert('Email is required');
+            return;
+          }
+          
+          saveBtn.disabled = true;
+          saveBtn.textContent = 'Saving...';
+          
+          try {
+            const response = await fetch('users/users.php', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(updatedUser)
+            });
+            
+            const text = await response.text();
+            console.log('Server response:', text);
+            
+            let result;
+            try {
+              result = JSON.parse(text);
+            } catch {
+              result = { success: false, message: 'Invalid response from server' };
+            }
+            
+            if (result.success || result.status === 'success') {
+              // Update session storage with the response data
+              const updatedSessionUser = {
+                id: u.id,
+                name: updatedUser.name,
+                email: updatedUser.email,
+                phone: updatedUser.phone,
+                role: u.role
+              };
+              sessionStorage.setItem('currentUser', JSON.stringify(updatedSessionUser));
+              // Refresh the profile display
+              renderProfile();
+              alert('Profile updated successfully!');
+            } else {
+              alert('Error: ' + (result.message || result.error || 'Failed to update profile'));
+              console.error('Update failed:', result);
+            }
+          } catch (err) {
+            console.error('Error updating profile:', err);
+            alert('Network error: ' + err.message);
+          } finally {
+            saveBtn.disabled = false;
+            saveBtn.textContent = '✓ Save Changes';
+          }
+        });
+      }
+      fetch(`api/bookings.php?action=getByUser&userId=${encodeURIComponent(u.id)}`)
+        .then(res => res.json())
+        .then(data => {
+          const bookings = data.success ? (data.bookings || []) : [];
+          const current = bookings.filter(b => (b.status || '').toLowerCase() !== 'completed');
+          const past = bookings.filter(b => (b.status || '').toLowerCase() === 'completed');
+
+          // Current bookings
+          if (current.length > 0) {
+            currentBookingsEl.innerHTML = `
+              <h4 style="color: #4CAF50; margin-bottom: 15px; font-size: 16px;">Current Bookings (${current.length})</h4>
+              ${current.map(booking => `
+                <div style="background: linear-gradient(135deg, #f0f9f0 0%, rgba(76, 175, 80, 0.05) 100%); padding: 18px; border-radius: 8px; margin-bottom: 14px; border-left: 4px solid #4CAF50; border: 1px solid rgba(76, 175, 80, 0.2);">
+                  <p style=\"margin: 5px 0;\"><strong>Room ID:</strong> ${booking.room_id || '—'}</p>
+                  <p style=\"margin: 5px 0;\"><strong>Check-in:</strong> ${booking.check_in_date}</p>
+                  <p style=\"margin: 5px 0;\"><strong>Check-out:</strong> ${booking.check_out_date}</p>
+                  <p style=\"margin: 5px 0;\"><strong>Guests:</strong> ${booking.num_guests}</p>
+                  <p style=\"margin: 5px 0;\"><strong>Price:</strong> ${Number(booking.total_price || 0).toLocaleString('en-PK')} PKR</p>
+                  ${booking.special_requests ? `<p style=\"margin: 5px 0;\"><strong>Notes:</strong> ${booking.special_requests}</p>` : ''}
+                  <p style=\"margin: 5px 0; color: #666; font-size: 12px;\">Created: ${new Date(booking.created_at).toLocaleDateString()}</p>
+                </div>
+              `).join('')}
+            `;
+          } else {
+            currentBookingsEl.innerHTML = `
+              <div style="background: rgba(255,255,255,0.9); padding: 15px; border-radius: 8px; text-align: center;">
+                <p style="color: #666;">No current bookings.</p>
+                <a href="rooms/RoomBrowsering.html" style="color: #F96167; text-decoration: none; font-weight: bold;">Browse Rooms</a>
+              </div>
+            `;
+          }
+
+          // Past bookings
+          if (past.length > 0) {
+            pastBookingsEl.innerHTML = `
+              <h4 style="color: #666; margin-bottom: 15px; margin-top: 0; font-size: 16px;">Past Bookings (${past.length})</h4>
+              ${past.map(booking => `
+                <div style="background: linear-gradient(135deg, #f5f5f5 0%, rgba(200, 200, 200, 0.05) 100%); padding: 18px; border-radius: 8px; margin-bottom: 14px; border-left: 4px solid #999; border: 1px solid rgba(200, 200, 200, 0.3);">
+                  <p style=\"margin: 5px 0;\"><strong>Room ID:</strong> ${booking.room_id || '—'}</p>
+                  <p style=\"margin: 5px 0;\"><strong>Check-in:</strong> ${booking.check_in_date}</p>
+                  <p style=\"margin: 5px 0;\"><strong>Check-out:</strong> ${booking.check_out_date}</p>
+                  <p style=\"margin: 5px 0;\"><strong>Guests:</strong> ${booking.num_guests}</p>
+                  <p style=\"margin: 5px 0;\"><strong>Price:</strong> ${Number(booking.total_price || 0).toLocaleString('en-PK')} PKR</p>
+                  ${booking.special_requests ? `<p style=\"margin: 5px 0;\"><strong>Notes:</strong> ${booking.special_requests}</p>` : ''}
+                  <p style=\"margin: 5px 0; color: #666; font-size: 12px;\">Created: ${new Date(booking.created_at).toLocaleDateString()}</p>
+                </div>
+              `).join('')}
+            `;
+          } else {
+            pastBookingsEl.innerHTML = `
+              <div style="background: rgba(240,240,240,0.9); padding: 15px; border-radius: 8px; text-align: center; margin-top: 20px;">
+                <p style="color: #666;">No past bookings.</p>
+              </div>
+            `;
+          }
+        })
+        .catch(err => {
+          console.error('Failed to load bookings', err);
+          currentBookingsEl.innerHTML = '<p style="color:red;">Could not load bookings. Please refresh.</p>';
+        });
+    }
+    
+    const logoutLink = document.getElementById('logoutLink');
+    if (logoutLink) {
+      logoutLink.addEventListener('click', (e)=>{
+        e.preventDefault();
+        logout();
+        location.href = 'login.html';
+      });
+    }
+    renderProfile();
+  </script>
+</body>
+</html>

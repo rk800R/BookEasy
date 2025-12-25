@@ -1,0 +1,317 @@
+<!-- Umair Ali Arif -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BookEasy — Admin Panel</title>
+  <script src="../atlas.js"></script>
+  <style>
+    :root{ --accent: #F96167; --muted: rgba(255,255,255,0.92); --card-bg: rgba(255,255,255,0.85); --shadow: 0 6px 18px rgba(8,24,48,0.12); }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{font-family: Arial, Helvetica, sans-serif; background: url('../media/adminbg.jpg') center/cover no-repeat; color:#06243b;}
+    .overlay{background:linear-gradient(rgba(6,23,51,0.45), rgba(6,23,51,0.45));min-height:100vh;padding:20px}
+    header{background:var(--accent); color:white; padding:14px; border-radius:6px; max-width:1100px;margin:0 auto 18px;}
+    header h1{font-size:18px}
+    header small{display:block;opacity:0.9}
+    .container{max-width:1100px;margin:0 auto;padding:0 16px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px}
+    .tile{background:var(--card-bg);padding:18px;border-radius:10px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px}
+    .tile h3{margin:0;font-size:16px}
+    .tile .value{font-size:28px;font-weight:700;color:var(--accent)}
+    .actions{display:flex;gap:8px;margin-top:8px}
+    .btn{background:var(--accent);color:white;padding:8px 10px;border-radius:8px;border:none;cursor:pointer}
+    .muted{color:rgba(6,36,59,0.7)}
+    .manage{display:flex;gap:16px}
+    .manage .panel{flex:1}
+    form.row{display:flex;gap:8px;flex-wrap:wrap}
+    input[type=text]{flex:1;padding:8px;border-radius:6px;border:1px solid #ddd}
+    ul.room-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+    ul.room-list li{background:rgba(255,255,255,0.9);padding:10px;border-radius:6px;display:flex;justify-content:space-between;align-items:center}
+    footer{max-width:1100px;margin:18px auto;color:var(--muted);text-align:center}
+    /* Modal for rooms list */
+    .modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;overflow:auto;background:rgba(0,0,0,0.45)}
+    .modal-content{background:#fff;margin:60px auto;padding:20px;border-radius:10px;max-width:720px;box-shadow:var(--shadow)}
+    .modal h3{margin-bottom:10px}
+    .modal .close{float:right;font-size:22px;font-weight:bold;cursor:pointer;color:#666}
+    .modal .close:hover{color:#000}
+    .modal ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+    .modal li{display:flex;justify-content:space-between;align-items:center;background:#f7f9fc;border:1px solid #e3e7ef;border-radius:8px;padding:10px}
+    @media (max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.manage{flex-direction:column}}
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <header>
+      <div class="container">
+        <h1>BookEasy Admin Panel</h1>
+        <small>Manage users, rooms & reports</small>
+        <nav style="margin-top:12px;display:flex;justify-content:center;flex-wrap:wrap;gap:15px">
+          <a href="../Project.html" style="color:white;text-decoration:none;padding:6px 10px;border-radius:4px;font-size:13px;transition:background-color 1s">Home</a>
+          <a href="../rooms/RoomBrowsering.html" style="color:white;text-decoration:none;padding:6px 10px;border-radius:4px;font-size:13px;transition:background-color 1s">Browse and Explore rooms</a>
+          <a href="../Search.html" style="color:white;text-decoration:none;padding:6px 10px;border-radius:4px;font-size:13px;transition:background-color 1s">Advanced Search</a>
+          <a href="../About.html" style="color:white;text-decoration:none;padding:6px 10px;border-radius:4px;font-size:13px;transition:background-color 1s">About</a>
+          <a href="../Contact.html" style="color:white;text-decoration:none;padding:6px 10px;border-radius:4px;font-size:13px;transition:background-color 1s">Contact</a>
+          <a href="../Check-in.html" style="color:white;text-decoration:none;padding:6px 10px;border-radius:4px;font-size:13px;transition:background-color 1s">Check In</a>
+          <a href="../report/Report.html" style="color:white;text-decoration:none;padding:6px 10px;border-radius:4px;font-size:13px;transition:background-color 1s">Report and Feedback</a>
+          <a href="../login.html" style="color:white;text-decoration:none;padding:6px 10px;border-radius:4px;font-size:13px;transition:background-color 1s">Login</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="grid" aria-label="Overview tiles">
+        <div class="tile">
+          <h3>Users</h3>
+          <div><span class="value" id="totalUsers">—</span></div>
+          <div class="muted">Total users</div>
+          <div class="actions">
+            <button class="btn" id="refreshStats">Refresh</button>
+          </div>
+        </div>
+
+        <div class="tile">
+          <h3>Online</h3>
+          <div><span class="value" id="onlineUsers">—</span></div>
+          <div class="muted">Currently online</div>
+        </div>
+
+        <div class="tile">
+          <h3>Rooms</h3>
+          <div><span class="value" id="totalRooms">—</span></div>
+          <div class="muted">Total rooms</div>
+          <div class="actions">
+            <button class="btn" id="refreshStats">Refresh</button>
+            <button class="btn" id="viewAllRooms">View All</button>
+          </div>
+          <div class="muted" id="roomStatusMsg" style="min-height:18px"></div>
+        </div>
+      </section>
+
+      <section class="manage">
+        <div class="panel">
+          <div class="tile">
+            <h3>Add Room</h3>
+            <form id="addRoomForm" class="row">
+              <input type="text" id="newRoomName" placeholder="Room title (e.g. Deluxe Room)" required>
+              <div style="display:flex;gap:6px;flex:1;min-width:260px;align-items:center">
+                <input type="text" id="newRoomImg" placeholder="Image path (media/filename.jpg)" style="flex:1" required>
+                <label class="btn" style="margin:0;cursor:pointer;white-space:nowrap">
+                  Browse
+                  <input type="file" id="newRoomImgFile" accept="image/*" style="display:none">
+                </label>
+              </div>
+              <input type="text" id="newRoomAmenities" placeholder="Amenities (comma separated)" style="flex:1" required>
+              <input type="text" id="newRoomPrice" placeholder="Price (e.g. 25000)" required>
+              <button class="btn" type="button" id="addRoomBtn">Add</button>
+            </form>
+            <div id="addRoomMsg" class="muted" style="margin-top:8px"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="tile">
+            <h3>Manage Rooms</h3>
+            <div class="muted">Remove existing rooms or restore removed ones</div>
+            <ul id="roomList" class="room-list" style="margin-top:12px"></ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>&copy; 2025 BookEasy — Admin Panel</footer>
+  </div>
+
+  <div id="roomsModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <span class="close" id="closeRoomsModal">&times;</span>
+      <h3>All Rooms</h3>
+      <div id="roomsModalMsg" class="muted" style="margin-bottom:8px"></div>
+      <ul id="roomsModalList"></ul>
+    </div>
+  </div>
+
+  <script>
+    // Basic admin gate: redirect if no admin session
+    (function enforceAdminSession(){
+      const isAdmin = sessionStorage.getItem('adminLoggedIn') === 'true';
+      if (!isAdmin) {
+        window.location.href = 'adminlogin.html';
+      }
+    })();
+
+    const apiUrl = '../rooms/rooms.php';
+    let cachedRooms = [];
+
+    async function fetchRoomsFromApi(){
+      try{
+        const res = await fetch(`${apiUrl}?action=getAllRooms`);
+        const data = await res.json();
+        if (data.success) {
+          cachedRooms = data.rooms || [];
+          const statusMsg = document.getElementById('roomStatusMsg');
+          if (data.usedFallback || data.dbConnected === false) {
+            statusMsg.innerText = 'DB offline; showing fallback data.';
+            statusMsg.style.color = 'red';
+          } else {
+            statusMsg.innerText = '';
+            statusMsg.style.color = '';
+          }
+          return cachedRooms;
+        }
+      }catch(err){
+        console.warn('Room API unavailable, falling back to local view.', err);
+      }
+      cachedRooms = [];
+      return cachedRooms;
+    }
+
+    async function refreshStats(){
+      const rooms = await fetchRoomsFromApi();
+      document.getElementById('totalRooms').innerText = rooms.length || '0';
+      document.getElementById('totalUsers').innerText = (JSON.parse(localStorage.getItem('users')||'[]').length || 12);
+      document.getElementById('onlineUsers').innerText = Math.max(1, Math.floor(Math.random()*10));
+      renderRoomList(rooms);
+    }
+
+    function renderRoomList(rooms){
+      const listEl = document.getElementById('roomList'); listEl.innerHTML = '';
+      rooms.forEach(r => {
+        const li = document.createElement('li');
+        const safeTitle = r.name || r.title || 'Room';
+        li.innerHTML = `<span>${safeTitle}</span>`;
+        listEl.appendChild(li);
+      });
+    }
+
+    async function addRoomToDatabase(){
+      const title = document.getElementById('newRoomName').value.trim();
+      const img = document.getElementById('newRoomImg').value.trim();
+      const amenities = document.getElementById('newRoomAmenities').value.trim();
+      const priceRaw = document.getElementById('newRoomPrice').value.trim();
+      const msg = document.getElementById('addRoomMsg');
+
+      if(!title || !img || !priceRaw){
+        msg.innerText = 'Please provide room title, image path, and price.';
+        msg.style.color='red';
+        return;
+      }
+
+      const price = parseFloat(priceRaw);
+      if (Number.isNaN(price)){
+        msg.innerText = 'Price must be a number (PKR).';
+        msg.style.color='red';
+        return;
+      }
+
+      try{
+        const res = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'addRoom',
+            name: title,
+            description: '',
+            price: price,
+            image_url: img,
+              amenities: amenities
+          })
+        });
+
+        const data = await res.json();
+        if (data.success){
+          msg.innerText = 'Room saved to database.';
+          msg.style.color='green';
+          document.getElementById('newRoomName').value='';
+          document.getElementById('newRoomImg').value='';
+          document.getElementById('newRoomAmenities').value='';
+          document.getElementById('newRoomPrice').value='';
+          refreshStats();
+        } else {
+          const detail = data.error ? ` (${data.error})` : '';
+          msg.innerText = (data.message || 'Failed to add room.') + detail;
+          msg.style.color='red';
+        }
+      }catch(err){
+        console.error('Add room error', err);
+        msg.innerText = 'Server error while adding room. Check rooms.php/DB connection.';
+        msg.style.color='red';
+      }
+    }
+
+    document.getElementById('addRoomBtn').addEventListener('click', addRoomToDatabase);
+    // If a file is chosen, set the text box to media/<filename> for consistency
+    document.getElementById('newRoomImgFile').addEventListener('change', (e)=>{
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      // This only fills the path; ensure the image is uploaded/placed in media/ manually
+      document.getElementById('newRoomImg').value = `media/${file.name}`;
+    });
+    document.getElementById('refreshStats').addEventListener('click', refreshStats);
+    document.getElementById('viewAllRooms').addEventListener('click', showRoomsModal);
+    document.getElementById('closeRoomsModal').addEventListener('click', closeRoomsModal);
+    document.getElementById('roomsModal').addEventListener('click', (e)=>{ if(e.target.id==='roomsModal') closeRoomsModal(); });
+
+    // initial load
+    refreshStats();
+
+    function renderRoomsModal(list){
+      const ul = document.getElementById('roomsModalList');
+      ul.innerHTML = '';
+      list.forEach(r=>{
+        const li = document.createElement('li');
+        const safeTitle = r.name || r.title || 'Room';
+        li.innerHTML = `<span>${safeTitle}</span><button class="btn" data-id="${r.id}">Delete</button>`;
+        ul.appendChild(li);
+      });
+
+      ul.querySelectorAll('button').forEach(btn=>{
+        btn.addEventListener('click', ()=> deleteRoom(btn.dataset.id));
+      });
+    }
+
+    async function showRoomsModal(){
+      const msg = document.getElementById('roomsModalMsg');
+      msg.innerText = 'Loading rooms...';
+      msg.style.color = '#06243b';
+      const rooms = cachedRooms.length ? cachedRooms : await fetchRoomsFromApi();
+      renderRoomsModal(rooms);
+      msg.innerText = rooms.length ? '' : 'No rooms found.';
+      document.getElementById('roomsModal').style.display = 'block';
+    }
+
+    function closeRoomsModal(){
+      document.getElementById('roomsModal').style.display = 'none';
+    }
+
+    async function deleteRoom(id){
+      const msg = document.getElementById('roomsModalMsg');
+      msg.innerText = 'Deleting...';
+      msg.style.color = '#06243b';
+      try{
+        const res = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'deleteRoom', id: id })
+        });
+        const data = await res.json();
+        if (data.success){
+          msg.innerText = 'Room deleted.';
+          msg.style.color = 'green';
+          // Refresh cache and UI
+          await refreshStats();
+          renderRoomsModal(cachedRooms);
+        } else {
+          msg.innerText = data.message || 'Failed to delete room.';
+          msg.style.color = 'red';
+        }
+      }catch(err){
+        console.error('Delete room error', err);
+        msg.innerText = 'Server error while deleting room.';
+        msg.style.color = 'red';
+      }
+    }
+  </script>
+</body>
+</html>

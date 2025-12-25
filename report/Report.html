@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../atlas.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report and Feedback - BookEasy</title>
+    <link rel="stylesheet" href="../style.css">
+    <script src="report.js" defer></script>
+</head>
+<body style="background-image: url('../media/feedbackbg.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+
+    <header>
+        <h1>Report a Bug or Share Feedback</h1>
+        <nav>
+            <a href="../Project.html">Home</a>
+            <a href="../rooms/RoomBrowsering.html">Browse and Explore rooms</a>
+            <a href="../Search.html">Advanced Search</a>
+            <a href="Report.html">Report and Feedback</a>
+            <a href="../About.html">About</a>
+            <a href="../Contact.html">Contact</a>
+            <a href="../login.html">Login</a>
+        </nav>
+    </header>
+    
+    <div class="main-content">
+        <div class="content-container">
+            <h2>Help Us Improve</h2>
+            
+            <form id="feedbackForm">
+                <div class="form-group">
+                    <label for="feedback-type">Type of Submission:</label>
+                    <select id="feedback-type" required>
+                        <option value="bug">Bug Report</option>
+                        <option value="feature">Feature Suggestion</option>
+                        <option value="general">General Feedback</option>
+                        <option value="complaint">Complaint</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="feedback-email">Your Email (Optional, for follow-up):</label>
+                    <input type="email" id="feedback-email" placeholder="example@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="feedback-details">Detailed Description:</label>
+                    <textarea id="feedback-details" rows="7" required placeholder="Please be descriptive. If reporting a bug, include steps to reproduce it."></textarea>
+                </div>
+
+                <button type="submit">Submit Feedback</button>
+            </form>
+
+            <p id="feedbackMessage" style="margin-top: 20px; text-align: center;"></p>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 BookEasy. All rights reserved.</p>
+    </footer>
+</body>
+</html>

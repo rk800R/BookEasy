@@ -1,0 +1,11 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "msedge",
+            "request": "launch",
+            "name": "Open Project.html",
+            "url": "file:///c:/Users/aliar/Documents/WEB project/Project.html"
+        }
+    ]
+}

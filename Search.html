@@ -1,0 +1,76 @@
+<!--Iqtadar Mehdi-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="atlas.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Search - BookEasy</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-image: url('media/Searchbg.avif');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Advanced Search</h1>
+        <nav>
+            <a href="Project.html">Home</a>
+            <a href="rooms/RoomBrowsering.html">Browse and Explore rooms</a>
+            <a href="Search.html">Advanced Search</a>
+            <a href="report/Report.html">Report and Feedback</a>
+            <a href="About.html">About</a>
+            <a href="Contact.html">Contact</a>
+            <a href="login.html">Login</a>
+        </nav>
+    </header>
+    
+    <div class="main-content">
+        <div class="content-container">
+            <h2>Find Your Perfect Stay</h2>
+            
+            <div id="search-form">
+                <div class="form-group">
+                    <label for="location">Destination:</label>
+                    <input type="text" id="location" placeholder="City, Region, or Hotel Name" required>
+                </div>
+                
+                <div style="display: flex; gap: 20px;">
+                    <div class="form-group" style="flex: 1;">
+                        <label for="check-in">Check-in Date:</label>
+                        <input type="date" id="check-in" required>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label for="check-out">Check-out Date:</label>
+                        <input type="date" id="check-out" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="guests">Number of Guests:</label>
+                    <input type="number" id="guests" min="1" value="1" required>
+                </div>
+
+                <button onclick="handleSearch()">Search Availability</button>
+            </div>
+
+            <div id="results" style="margin-top: 30px;">
+                </div>
+
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 BookEasy. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

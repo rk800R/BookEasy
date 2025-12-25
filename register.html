@@ -1,0 +1,106 @@
+<!--Muhammad Anas-->
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Register - BookEasy</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="atlas.js"></script>
+</head>
+<body>
+  <header>
+    <h1>BookEasy</h1>
+    <nav>
+      <a href="Project.html">Home</a>
+      <a href="register.html">Register</a>
+      <a href="admin_control/adminlogin.html">Admin Login</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h2>Create account</h2>
+    <div id="msg" class="small"></div>
+
+    <div class="form-row">
+      <label>Name</label>
+      <input id="name" type="text" placeholder="Full name">
+    </div>
+    <div class="form-row">
+      <label>Email</label>
+      <input id="email" type="email" placeholder="you@example.com">
+    </div>
+    <div class="form-row">
+      <label>Password</label>
+      <input id="password" type="password" placeholder="password">
+    </div>
+    <div class="form-row">
+      <label>Confirm password</label>
+      <input id="password2" type="password" placeholder="confirm password">
+    </div>
+    <div class="form-row">
+      <label>Phone (Optional)</label>
+      <input id="phone" type="tel" placeholder="03001234567">
+    </div>
+
+    <button id="btnRegister">Register</button>
+  </div>
+
+  <div class="footer">© 2025 BookEasy</div>
+
+  <script>
+    document.getElementById('btnRegister').addEventListener('click', async ()=>{
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const password2 = document.getElementById('password2').value;
+      const phone = document.getElementById('phone').value.trim();
+      const msgEl = document.getElementById('msg');
+      
+      if (!name || !email || !password) { 
+        msgEl.style.color='red';
+        msgEl.textContent = 'Please fill all required fields'; 
+        return; 
+      }
+      if (password !== password2) { 
+        msgEl.style.color='red';
+        msgEl.textContent = 'Passwords do not match'; 
+        return; 
+      }
+      
+      msgEl.style.color='blue';
+      msgEl.textContent = 'Registering...';
+      
+      try {
+        const response = await fetch('users/users.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            action: 'register',
+            name: name,
+            email: email,
+            password: password,
+            phone: phone
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          msgEl.style.color = 'green';
+          msgEl.textContent = 'Registered successfully. Redirecting to login...';
+          setTimeout(()=> location.href = 'login.html', 900);
+        } else {
+          msgEl.style.color='red';
+          msgEl.textContent = data.message || 'Registration failed';
+        }
+      } catch (error) {
+        console.error('Registration error:', error);
+        msgEl.style.color='red';
+        msgEl.textContent = 'Connection error. Please try again.';
+      }
+    });
+  </script>
+</body>
+</html>

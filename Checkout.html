@@ -1,0 +1,678 @@
+<!--Umair Ali Arif-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - BookEasy</title>
+    <script src="atlas.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        nav {
+            background: rgba(249, 97, 103, 0.75);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .checkout-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            color: #F96167;
+            margin-bottom: 20px;
+            font-size: 22px;
+            border-bottom: 2px solid #F96167;
+            padding-bottom: 10px;
+        }
+
+        .room-summary {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .room-image {
+            width: 100%;
+            height: 250px;
+            background: #ddd;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        .room-info h3 {
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .room-info p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .price-per-night {
+            font-size: 20px;
+            color: #F96167;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .amenities {
+            margin: 15px 0;
+        }
+
+        .amenities h4 {
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .amenities-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .amenity-tag {
+            background: #f0f0f0;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* Add-ons section styling */
+        .addons-section {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .addons-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .addon-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s;
+        }
+
+        .addon-item:hover {
+            border-color: #F96167;
+            box-shadow: 0 2px 8px rgba(249, 97, 103, 0.2);
+        }
+
+        .addon-info {
+            flex: 1;
+        }
+
+        .addon-info h4 {
+            margin: 0 0 4px 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .addon-info p {
+            margin: 0;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .addon-price {
+            font-weight: bold;
+            color: #F96167;
+            margin: 0 15px;
+            min-width: 80px;
+            text-align: right;
+        }
+
+        .addon-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .user-info-display {
+            background: #f0f7ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #F96167;
+        }
+
+        .user-info-display h4 {
+            margin: 0 0 10px 0;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .user-info-display p {
+            margin: 5px 0;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #F96167;
+            box-shadow: 0 0 5px rgba(249, 97, 103, 0.3);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .payment-breakdown {
+            background: #f9f9f9;
+            padding: 18px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .breakdown-item.total {
+            border-top: 2px solid #F96167;
+            padding-top: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #F96167;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 14px;
+            background: #F96167;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 20px;
+        }
+
+        .checkout-btn:hover {
+            background: #e85055;
+        }
+
+        .checkout-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .error {
+            color: #d9534f;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 900px) {
+            .checkout-container {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                gap: 15px;
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .checkout-container {
+                margin: 15px;
+                padding: 15px;
+            }
+
+            .section {
+                padding: 18px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            nav a {
+                padding: 6px 10px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="Project.html">Home</a>
+        <a href="rooms/RoomBrowsering.html">Browse rooms</a>
+        <a href="Search.html">Advanced Search</a>
+        <a href="report/Report.html">Report and Feedback</a>
+        <a href="About.html">About</a>
+        <a href="Contact.html">Contact</a>
+        <a href="login.html">Login</a>
+    </nav>
+
+    <div class="checkout-container">
+        <!-- Left: Room Summary & Booking Details -->
+        <div class="section">
+            <h2>Booking Summary</h2>
+            
+            <div class="room-summary" id="roomSummary">
+                <!-- Populated from sessionStorage -->
+            </div>
+
+            <h3 style="color: #333; margin: 25px 0 15px;">Booking Details</h3>
+            
+            <div class="form-group">
+                <label>Check-in Date</label>
+                <input type="date" id="checkIn" required>
+            </div>
+
+            <div class="form-group">
+                <label>Check-out Date</label>
+                <input type="date" id="checkOut" required>
+            </div>
+
+            <div class="form-group">
+                <label>Number of Guests</label>
+                <select id="guests" required>
+                    <option value="">Select number of guests</option>
+                    <option value="1">1 Guest</option>
+                    <option value="2">2 Guests</option>
+                    <option value="3">3 Guests</option>
+                    <option value="4">4 Guests</option>
+                    <option value="5">5 Guests</option>
+                    <option value="6">6+ Guests</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Right: User Info & Add-ons -->
+        <div class="section">
+            <h2>Your Information</h2>
+
+            <div class="user-info-display" id="userInfoDisplay">
+                <!-- User info will be populated by JavaScript -->
+            </div>
+
+            <div class="addons-section">
+                <h3>Room Add-ons & Amenities</h3>
+                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Select additional services to enhance your stay</p>
+                
+                <div class="addon-item">
+                    <div class="addon-info">
+                        <h4>🍳 Breakfast Package</h4>
+                        <p>Daily buffet breakfast for all guests</p>
+                    </div>
+                    <span class="addon-price">1,500 PKR/day</span>
+                    <input type="checkbox" class="addon-checkbox" data-price="1500" id="addon-breakfast">
+                </div>
+
+                <div class="addon-item">
+                    <div class="addon-info">
+                        <h4>🚗 Airport Transfer</h4>
+                        <p>Round trip airport pickup and drop-off</p>
+                    </div>
+                    <span class="addon-price">3,000 PKR</span>
+                    <input type="checkbox" class="addon-checkbox" data-price="3000" data-onetime="true" id="addon-transfer">
+                </div>
+
+                <div class="addon-item">
+                    <div class="addon-info">
+                        <h4>🧖 Spa Services</h4>
+                        <p>Access to spa and wellness center</p>
+                    </div>
+                    <span class="addon-price">2,500 PKR/day</span>
+                    <input type="checkbox" class="addon-checkbox" data-price="2500" id="addon-spa">
+                </div>
+
+                <div class="addon-item">
+                    <div class="addon-info">
+                        <h4>🅿️ Premium Parking</h4>
+                        <p>Covered parking space with 24/7 security</p>
+                    </div>
+                    <span class="addon-price">500 PKR/day</span>
+                    <input type="checkbox" class="addon-checkbox" data-price="500" id="addon-parking">
+                </div>
+
+                <div class="addon-item">
+                    <div class="addon-info">
+                        <h4>🏊 Pool & Gym Access</h4>
+                        <p>Full access to swimming pool and fitness center</p>
+                    </div>
+                    <span class="addon-price">1,000 PKR/day</span>
+                    <input type="checkbox" class="addon-checkbox" data-price="1000" id="addon-pool">
+                </div>
+
+                <div class="addon-item">
+                    <div class="addon-info">
+                        <h4>🍽️ Room Service Package</h4>
+                        <p>24/7 in-room dining service</p>
+                    </div>
+                    <span class="addon-price">800 PKR/day</span>
+                    <input type="checkbox" class="addon-checkbox" data-price="800" id="addon-roomservice">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Special Requests (Optional)</label>
+                <textarea id="specialRequests" placeholder="Any special requests or preferences?"></textarea>
+            </div>
+
+            <h2 style="margin-top: 30px;">Payment Summary</h2>
+            
+            <div class="payment-breakdown">
+                <div class="breakdown-item">
+                    <span id="roomName">Room Rate:</span>
+                    <span id="nightlyRate">PKR 0</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Number of Nights:</span>
+                    <span id="numNights">0</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Room Subtotal:</span>
+                    <span id="subtotal">PKR 0</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Add-ons Total:</span>
+                    <span id="addonsTotal">PKR 0</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Service Fee (10%):</span>
+                    <span id="serviceFee">PKR 0</span>
+                </div>
+                <div class="breakdown-item total">
+                    <span>Total Amount:</span>
+                    <span id="totalAmount">PKR 0</span>
+                </div>
+            </div>
+
+            <button class="checkout-btn" onclick="completeBooking()">Complete Booking</button>
+        </div>
+    </div>
+
+    <script>
+        let roomData = null;
+        let selectedAddons = [];
+
+        // Load room data from sessionStorage
+        function loadRoomData() {
+            const storedRoom = sessionStorage.getItem('bookingRoom');
+            if (storedRoom) {
+                roomData = JSON.parse(storedRoom);
+                displayRoomSummary();
+                displayUserInfo();
+                
+                // Set minimum dates
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('checkIn').min = today;
+                document.getElementById('checkOut').min = today;
+            } else {
+                alert('No room selected. Redirecting to room browser.');
+                window.location.href = 'rooms/RoomBrowsering.html';
+            }
+        }
+
+        // Display user information
+        function displayUserInfo() {
+            const user = getCurrentUser();
+            if (user) {
+                const userInfoDiv = document.getElementById('userInfoDisplay');
+                userInfoDiv.innerHTML = `
+                    <h4>Booking for:</h4>
+                    <p><strong>Name:</strong> ${user.name || user.fullName || 'N/A'}</p>
+                    <p><strong>Email:</strong> ${user.email || 'N/A'}</p>
+                    <p><strong>Phone:</strong> ${user.phone || 'Not provided'}</p>
+                `;
+            }
+        }
+
+        // Display room summary
+        function displayRoomSummary() {
+            const roomSummary = document.getElementById('roomSummary');
+            roomSummary.innerHTML = `
+                <div class="room-info">
+                    ${roomData.image ? `<img src="${roomData.image}" class="room-image" alt="${roomData.name}">` : ''}
+                    <h3>${roomData.name}</h3>
+                    <p>${roomData.description || 'Comfortable and well-equipped room.'}</p>
+                    <p><strong>Amenities:</strong> ${roomData.amenities || 'WiFi, AC, TV, Bed'}</p>
+                    <div class="price-per-night">PKR ${roomData.price} per night</div>
+                </div>
+            `;
+
+            document.getElementById('nightlyRate').textContent = `PKR ${roomData.price}`;
+            document.getElementById('roomName').textContent = `${roomData.name} per night:`;
+        }
+
+        // Calculate pricing with add-ons
+        function calculatePricing() {
+            const checkIn = new Date(document.getElementById('checkIn').value);
+            const checkOut = new Date(document.getElementById('checkOut').value);
+
+            if (checkIn && checkOut && checkOut > checkIn) {
+                const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+                const roomSubtotal = nights * roomData.price;
+                
+                // Calculate add-ons total
+                let addonsTotal = 0;
+                document.querySelectorAll('.addon-checkbox:checked').forEach(checkbox => {
+                    const price = parseFloat(checkbox.dataset.price);
+                    const isOneTime = checkbox.dataset.onetime === 'true';
+                    if (isOneTime) {
+                        addonsTotal += price;
+                    } else {
+                        addonsTotal += price * nights;
+                    }
+                });
+                
+                const subtotalWithAddons = roomSubtotal + addonsTotal;
+                const serviceFee = subtotalWithAddons * 0.10;
+                const total = subtotalWithAddons + serviceFee;
+
+                document.getElementById('numNights').textContent = nights;
+                document.getElementById('subtotal').textContent = `PKR ${roomSubtotal.toFixed(0)}`;
+                document.getElementById('addonsTotal').textContent = `PKR ${addonsTotal.toFixed(0)}`;
+                document.getElementById('serviceFee').textContent = `PKR ${serviceFee.toFixed(0)}`;
+                document.getElementById('totalAmount').textContent = `PKR ${total.toFixed(0)}`;
+            }
+        }
+
+        // Validate form inputs
+        function validateForm() {
+            let isValid = true;
+
+            const checkIn = document.getElementById('checkIn').value;
+            const checkOut = document.getElementById('checkOut').value;
+            
+            if (!checkIn || !checkOut) {
+                alert('Please select check-in and check-out dates');
+                isValid = false;
+            } else if (new Date(checkOut) <= new Date(checkIn)) {
+                alert('Check-out date must be after check-in date');
+                isValid = false;
+            }
+
+            const guests = document.getElementById('guests').value;
+            if (!guests) {
+                alert('Please select number of guests');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // Complete booking
+        async function completeBooking() {
+            if (!validateForm()) return;
+
+            const user = getCurrentUser();
+            if (!user || !user.id) {
+                alert('Please login before completing booking.');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Collect selected add-ons as text
+            const selectedAddons = [];
+            document.querySelectorAll('.addon-checkbox:checked').forEach(checkbox => {
+                const addonItem = checkbox.closest('.addon-item');
+                const addonName = addonItem.querySelector('h4').textContent;
+                selectedAddons.push(addonName);
+            });
+
+            const totalText = document.getElementById('totalAmount').textContent || '0';
+            const totalNumeric = parseFloat((totalText.match(/[\d.,]+/) || ['0'])[0].replace(/,/g,'')) || 0;
+
+            const payload = {
+                action: 'create',
+                user_id: user.id,
+                room_id: roomData.id,
+                guest_name: user.name || user.fullName || '',
+                guest_email: user.email || '',
+                guest_phone: user.phone || '',
+                check_in_date: document.getElementById('checkIn').value,
+                check_out_date: document.getElementById('checkOut').value,
+                num_guests: document.getElementById('guests').value,
+                total_price: totalNumeric,
+                status: 'confirmed',
+                special_requests: document.getElementById('specialRequests').value || selectedAddons.join(', ')
+            };
+
+            try {
+                const res = await fetch('api/bookings.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.success) {
+                    sessionStorage.removeItem('bookingRoom');
+                    alert('Booking confirmed!');
+                    window.location.href = 'profile.html';
+                } else {
+                    alert('Failed to save booking: ' + (data.message || 'Error') + (data.error ? ('\n' + data.error) : ''));
+                }
+            } catch (err) {
+                console.error('Booking error', err);
+                alert('Could not save booking. Please try again.');
+            }
+        }
+
+        // Event listeners
+        document.getElementById('checkIn').addEventListener('change', () => {
+            // Update checkout minimum date when check-in is selected
+            const checkInDate = document.getElementById('checkIn').value;
+            if (checkInDate) {
+                const minCheckOut = new Date(checkInDate);
+                minCheckOut.setDate(minCheckOut.getDate() + 1);
+                document.getElementById('checkOut').min = minCheckOut.toISOString().split('T')[0];
+            }
+            calculatePricing();
+        });
+        
+        document.getElementById('checkOut').addEventListener('change', calculatePricing);
+        
+        // Add event listeners to all add-on checkboxes
+        document.querySelectorAll('.addon-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', calculatePricing);
+        });
+
+        // Initialize on page load
+        window.addEventListener('load', loadRoomData);
+    </script>
+        }
+
+        // Validate form inputs
+        function validateForm() {
+</body>
+</html>

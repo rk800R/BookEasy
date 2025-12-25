@@ -1,0 +1,101 @@
+<!--Muhammad Anas-->
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Login - BookEasy</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="atlas.js"></script>
+</head>
+<body>
+  <header>
+    <h1>BookEasy</h1>
+    <nav>
+      <a href="Project.html">Home</a>
+      <a href="register.html">Register</a>
+      <a href="admin_control/adminlogin.html">Admin Login</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h2>User Login</h2>
+    <div id="msg" class="small"></div>
+
+    <div class="form-row">
+      <label>Email</label>
+      <input id="email" type="email" placeholder="you@example.com">
+    </div>
+    <div class="form-row">
+      <label>Password</label>
+      <input id="password" type="password">
+    </div>
+
+    <button id="btnLogin">Login</button>
+  </div>
+
+  <footer class="footer">© 2025 BookEasy</footer>
+
+  <script>
+    document.getElementById('btnLogin').addEventListener('click', async ()=>{
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const msgEl = document.getElementById('msg');
+      
+      if (!email || !password) {
+        msgEl.style.color='red'; 
+        msgEl.textContent = 'Please fill in all fields';
+        return;
+      }
+      
+      msgEl.style.color='blue'; 
+      msgEl.textContent = 'Logging in...';
+      
+      try {
+        const response = await fetch('users/users.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            action: 'login',
+            email: email,
+            password: password
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          // Save user to sessionStorage for atlas.js
+          sessionStorage.setItem('currentUser', JSON.stringify(data.user));
+          
+          msgEl.style.color = 'green'; 
+          msgEl.textContent = 'Login success. Redirecting...';
+          
+          // Check if there's a pending booking
+          const pendingBooking = sessionStorage.getItem('pendingBooking');
+          if (pendingBooking) {
+            setTimeout(()=> location.href = 'Checkout.html', 700);
+          } else {
+            setTimeout(()=> location.href = 'profile.html', 700);
+          }
+        } else {
+          msgEl.style.color='red'; 
+          msgEl.textContent = data.message || 'Invalid email or password';
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        msgEl.style.color='red'; 
+        msgEl.textContent = 'Connection error. Please try again.';
+      }
+    });
+    
+    // Allow Enter key to submit
+    document.getElementById('password').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        document.getElementById('btnLogin').click();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Current Bookings - BookEasy</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="atlas.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Welcome to BookEasy</h1>
+    <nav>
+      <a href="Project.html">Home</a>
+      <a href="rooms/RoomBrowsering.html">Browse and Explore rooms</a>
+      <a href="Search.html">Advanced Search</a>
+      <a href="report/Report.html">Report and Feedback</a>
+      <a href="About.html">About</a>
+      <a href="Contact.html">Contact</a>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h2>Current / Upcoming Bookings</h2>
+    <div id="list" class="booking-list"></div>
+
+    <hr>
+    <h3>Test: Create demo booking</h3>
+    <div class="row">
+      <div style="flex:1">
+        <div class="form-row"><label>Room title</label><input id="demoRoom" type="text" value="Deluxe Suite"></div>
+        <div class="form-row"><label>From</label><input id="demoFrom" type="date"></div>
+        <div class="form-row"><label>To</label><input id="demoTo" type="date"></div>
+        <div class="form-row"><label>Base price</label><input id="demoPrice" type="text" value="3000"></div>
+        <button id="btnCreate">Create booking (for logged user)</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">© 2025 BookEasy</div>
+
+  <script src="users/users.js"></script>
+  <script>
+    function renderList(){
+      const u = currentUser();
+      const list = document.getElementById('list');
+      if (!u) { list.innerHTML = '<p>Please <a href="login.html">login</a> to see bookings.</p>'; return; }
+      const rows = getCurrentBookings(u.id);
+      if (rows.length === 0) { list.innerHTML = '<p>No upcoming bookings.</p>'; return; }
+      list.innerHTML = rows.map(b => `
+        <div class="card">
+          <div><strong>${b.roomTitle}</strong> <span class="small">(${b.from} → ${b.to})</span></div>
+          <div class="small">Price: ${b.price}</div>
+          <div style="margin-top:8px;">
+            <button onclick="completeBooking('${b.id}'); renderList();" class="secondary">Mark Completed</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('btnCreate').addEventListener('click', ()=>{
+      const u = currentUser();
+      if (!u) return alert('Login first');
+      const roomTitle = document.getElementById('demoRoom').value || 'Room';
+      const from = document.getElementById('demoFrom').value;
+      const to = document.getElementById('demoTo').value;
+      const price = document.getElementById('demoPrice').value || 0;
+      if (!from || !to) return alert('Choose dates');
+      addBooking(u.id, 'r_demo', roomTitle, from, to, [], price);
+      alert('Booking created');
+      renderList();
+    });
+
+    renderList();
+  </script>
+</body>
+</html>
